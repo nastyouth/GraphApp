@@ -130,6 +130,11 @@ extension ViewController: GraphProtocol {
             self.alerts?.showAlert(with: "Ошибка!", "Вершина \(vertex2) не найдена", self)
             return
         }
+        guard !graph.vertices[indexV1].edges.contains(where: { $0 == vertex2 }) &&
+                !graph.vertices[indexV2].edges.contains(where: { $0 == vertex1 }) else {
+            self.alerts?.showAlert(with: "Ошибка!", "Вершины \(vertex1) и \(vertex2) уже соединены", self)
+            return
+        }
         if neededAppend {
             graph.vertices[indexV1].edges.append(vertex2)
             graph.vertices[indexV2].edges.append(vertex1)
@@ -144,6 +149,11 @@ extension ViewController: GraphProtocol {
         }
         guard let indexV2 = (graph.vertices.firstIndex { $0.value == vertex2 }) else {
             self.alerts?.showAlert(with: "Ошибка!", "Вершина \(vertex2) не найдена", self)
+            return
+        }
+        guard graph.vertices[indexV1].edges.contains(where: { $0 == vertex2 }) &&
+                graph.vertices[indexV2].edges.contains(where: { $0 == vertex1 }) else {
+            self.alerts?.showAlert(with: "Ошибка!", "Ребро \(vertex1) - \(vertex2) не найдено", self)
             return
         }
         guard let indexE1 = (graph.vertices[indexV1].edges.firstIndex { $0 == vertex2 }) else { return }
