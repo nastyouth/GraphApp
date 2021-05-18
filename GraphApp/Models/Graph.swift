@@ -33,11 +33,20 @@ struct Graph {
         var resultVertices = [Int]()
         // Индекс вершины в массиве вершин
         guard let index = (vertices.firstIndex { $0.value == vertex.value }) else { return "Вершина не найдена" }
-        resultVertices.append(index + n)
-        if index - n > 0 {
-            resultVertices.append(index - n)
+        // Проверяем, что индекс искомого этого элемента меньше, чем кол-во элементов в массиве
+        if index + n < vertices.count {
+            resultVertices.append(vertices[index + n].value)
+        // Иначе ищем элемент с конца
         } else {
-            resultVertices.append(vertices.count + index - n)
+            resultVertices.append(vertices[vertices.count - index - n].value)
+        }
+
+        // Проверяем, что индекс искомого этого элемента меньше, чем кол-во элементов в массиве
+        if index - n > 0 {
+            resultVertices.append(vertices[index - n].value)
+        // Иначе ищем элемент с конца
+        } else {
+            resultVertices.append(vertices[vertices.count + index - n].value)
         }
         return resultVertices.map { String($0) }.joined(separator: ", ")
     }
