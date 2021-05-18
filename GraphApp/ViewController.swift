@@ -102,6 +102,10 @@ extension ViewController: GraphProtocol {
     }
     
     func addVertex(_ vertex: Vertex) {
+        guard !graph.vertices.contains(where: { $0.value == vertex.value }) else {
+            alerts?.showAlert(with: "Ошибка!", "Вершина \(vertex.value) была добавлена ранее", self)
+            return
+        }
         graph.addVertex(vertex)
         view.createGraph(&graph, true)
         redrawingEdges()
@@ -119,11 +123,11 @@ extension ViewController: GraphProtocol {
     
     func addEdge(_ vertex1: Int, _ vertex2: Int, _ neededAppend: Bool = true) {
         guard let indexV1 = (graph.vertices.firstIndex { $0.value == vertex1 }) else {
-            self.alerts?.showAlert(with: "Ошибка!", "Вершина не найдена", self)
+            self.alerts?.showAlert(with: "Ошибка!", "Вершина \(vertex1) не найдена", self)
             return
         }
         guard let indexV2 = (graph.vertices.firstIndex { $0.value == vertex2 }) else {
-            self.alerts?.showAlert(with: "Ошибка!", "Вершина не найдена", self)
+            self.alerts?.showAlert(with: "Ошибка!", "Вершина \(vertex2) не найдена", self)
             return
         }
         if neededAppend {
@@ -135,11 +139,11 @@ extension ViewController: GraphProtocol {
     
     func deleteEdge(vertex1: Int, vertex2: Int) {
         guard let indexV1 = (graph.vertices.firstIndex { $0.value == vertex1 }) else {
-            self.alerts?.showAlert(with: "Ошибка!", "Вершина не найдена", self)
+            self.alerts?.showAlert(with: "Ошибка!", "Вершина \(vertex1) не найдена", self)
             return
         }
         guard let indexV2 = (graph.vertices.firstIndex { $0.value == vertex2 }) else {
-            self.alerts?.showAlert(with: "Ошибка!", "Вершина не найдена", self)
+            self.alerts?.showAlert(with: "Ошибка!", "Вершина \(vertex2) не найдена", self)
             return
         }
         guard let indexE1 = (graph.vertices[indexV1].edges.firstIndex { $0 == vertex2 }) else { return }

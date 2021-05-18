@@ -42,7 +42,7 @@ struct Graph {
         }
 
         // Проверяем, что индекс искомого этого элемента меньше, чем кол-во элементов в массиве
-        if index - n > 0 {
+        if index - n >= 0 {
             resultVertices.append(vertices[index - n].value)
         // Иначе ищем элемент с конца
         } else {

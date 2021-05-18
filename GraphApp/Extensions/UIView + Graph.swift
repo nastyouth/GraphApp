@@ -61,6 +61,7 @@ extension UIView {
         self.layer.insertSublayer(layer, at: 0)
     }
     
+    // Создание скриншота
     func takeScreenshot() {
         // Создаем изображение с нашим контентом
         UIGraphicsBeginImageContext(frame.size)
