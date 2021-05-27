@@ -29,26 +29,34 @@ struct Graph {
     }
     
     // Возвращает список вершин, удаленных на расстояние n от вершины v
-    mutating func d(vertex: Vertex, n: Int) -> String {
-        var resultVertices = [Int]()
-        // Индекс вершины в массиве вершин
-        guard let index = (vertices.firstIndex { $0.value == vertex.value }) else { return "Вершина не найдена" }
-        // Проверяем, что индекс искомого этого элемента меньше, чем кол-во элементов в массиве
-        if index + n < vertices.count {
-            resultVertices.append(vertices[index + n].value)
-        // Иначе ищем элемент с конца
-        } else {
-            resultVertices.append(vertices[vertices.count - index - n].value)
+    mutating func d(_ startVertexValue: Int, _ n: Int) -> String {
+        var resultArray = [Int]()
+        var count = 0
+        guard let index = (vertices.firstIndex { $0.value == startVertexValue }) else { return "Вершина не найдена" }
+        let startVertex = vertices[index]
+        var visited = [Int]()
+        var queue = Queue<Vertex>()
+        queue.enqueue(startVertex)
+        while !queue.isEmpty {
+            let dequeVertex = queue.dequeue()
+            guard let dequeVertexValue = dequeVertex?.value else { fatalError() }
+            if !visited.contains(dequeVertexValue) {
+                dequeVertex?.edges.forEach { edge in
+                    guard let edge = (vertices.first { $0.value == edge }) else { fatalError() }
+                    queue.enqueue(edge)
+                }
+                visited.append(dequeVertexValue)
+                count += 1
+                if count > n {
+                    resultArray.append(dequeVertexValue)
+                }
+            }
         }
-
-        // Проверяем, что индекс искомого этого элемента меньше, чем кол-во элементов в массиве
-        if index - n >= 0 {
-            resultVertices.append(vertices[index - n].value)
-        // Иначе ищем элемент с конца
+        if resultArray.isEmpty {
+            return "Не найдено"
         } else {
-            resultVertices.append(vertices[vertices.count + index - n].value)
+            return resultArray.map { String($0) }.joined(separator: ", ")
         }
-        return resultVertices.map { String($0) }.joined(separator: ", ")
     }
     
     // Количество вершин

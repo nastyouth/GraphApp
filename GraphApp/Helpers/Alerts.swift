@@ -178,9 +178,9 @@ class Alerts {
                 guard let vertex2 = Int(secondTextField?.text ?? "") else { return }
                 self.delegate?.deleteEdge(vertex1: vertex1, vertex2: vertex2)
             case .dvn:
-                guard let vertex = Int(firstTextField?.text ?? "") else { return }
+                guard let vertexValue = Int(firstTextField?.text ?? "") else { return }
                 guard let n = Int(secondTextField?.text ?? "") else { return }
-                guard let vertices = self.delegate?.d(vertex: .init(value: vertex), n: n) else { return }
+                guard let vertices = self.delegate?.d(vertexValue, n) else { return }
                 self.showAlert(with: type.title, vertices, controller)
             case .bfs:
                 guard let vertex = Int(firstTextField?.text ?? "") else { return }

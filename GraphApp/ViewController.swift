@@ -40,7 +40,7 @@ protocol GraphProtocol: AnyObject {
     /// - Parameters:
     ///   - vertex: вершина
     ///   - n: расстояние
-    func d(vertex: Vertex, n: Int) -> String
+    func d(_ vertexValue: Int, _ n: Int) -> String
     
     /// Сделать скриншот
     func takeScreenshot()
@@ -117,8 +117,8 @@ extension ViewController: GraphProtocol {
         redrawingEdges()
     }
     
-    func d(vertex: Vertex, n: Int) -> String {
-        graph.d(vertex: vertex, n: n)
+    func d(_ vertexValue: Int, _ n: Int) -> String {
+        graph.d(vertexValue, n)
     }
     
     func addEdge(_ vertex1: Int, _ vertex2: Int, _ neededAppend: Bool = true) {
@@ -128,11 +128,6 @@ extension ViewController: GraphProtocol {
         }
         guard let indexV2 = (graph.vertices.firstIndex { $0.value == vertex2 }) else {
             self.alerts?.showAlert(with: "Ошибка!", "Вершина \(vertex2) не найдена", self)
-            return
-        }
-        guard !graph.vertices[indexV1].edges.contains(where: { $0 == vertex2 }) &&
-                !graph.vertices[indexV2].edges.contains(where: { $0 == vertex1 }) else {
-            self.alerts?.showAlert(with: "Ошибка!", "Вершины \(vertex1) и \(vertex2) уже соединены", self)
             return
         }
         if neededAppend {
